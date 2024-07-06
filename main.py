@@ -16,7 +16,6 @@ class Vacancy(db.Model):
     def __repr__(self):
         return f'<Vacancy {self.keyword}>'
 
-    # Добавьте методы для сериализации и десериализации списка вакансий
     def set_description(self, vacs):
         self.description = json.dumps(vacs)
 
@@ -34,11 +33,11 @@ def output():
         keyword = keyword.lower()
         vacancy = Vacancy.query.filter_by(keyword=keyword).first()
         if vacancy:
-            vacs = vacancy.get_description()  # Десериализуйте список
+            vacs = vacancy.get_description()
         else:
             vacs = get_vacs(keyword)
             new_vacancy = Vacancy(keyword=keyword)
-            new_vacancy.set_description(vacs)  # Сериализуйте список перед сохранением
+            new_vacancy.set_description(vacs)
             db.session.add(new_vacancy)
             db.session.commit()
     else:
